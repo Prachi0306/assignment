@@ -10,47 +10,39 @@
       "use": "@vercel/static"
     }
   ],
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/index.js" },
-    { "source": "/css/(.*)", "destination": "/frontend/css/$1" },
-    { "source": "/js/(.*)", "destination": "/frontend/js/$1" },
-    { "source": "/register.html", "destination": "/frontend/register.html" },
-    { "source": "/login.html", "destination": "/frontend/login.html" },
-    { "source": "/dashboard.html", "destination": "/frontend/dashboard.html" },
-    { "source": "/register", "destination": "/frontend/register.html" },
-    { "source": "/login", "destination": "/frontend/login.html" },
-    { "source": "/dashboard", "destination": "/frontend/dashboard.html" },
-    { "source": "/", "destination": "/frontend/register.html" }
-  ],
-  "headers": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
-      ]
+      "src": "/api/(.*)",
+      "dest": "/api/index.js",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "Referrer-Policy": "strict-origin-when-cross-origin"
+      }
     },
     {
-      "source": "/frontend/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
-      ]
+      "src": "/css/(.*)",
+      "dest": "/frontend/css/$1",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "public, max-age=3600"
+      }
     },
     {
-      "source": "/css/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
-      ]
+      "src": "/js/(.*)",
+      "dest": "/frontend/js/$1",
+      "headers": {
+        "X-Content-Type-Options": "nosniff",
+        "Cache-Control": "public, max-age=3600"
+      }
     },
-    {
-      "source": "/js/(.*)",
-      "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Cache-Control", "value": "public, max-age=3600" }
-      ]
-    }
+    { "src": "/login\\.html", "dest": "/frontend/login.html" },
+    { "src": "/register\\.html", "dest": "/frontend/register.html" },
+    { "src": "/dashboard\\.html", "dest": "/frontend/dashboard.html" },
+    { "src": "/login", "dest": "/frontend/login.html" },
+    { "src": "/register", "dest": "/frontend/register.html" },
+    { "src": "/dashboard", "dest": "/frontend/dashboard.html" },
+    { "src": "/", "dest": "/frontend/register.html" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
   ]
 }
