@@ -43,13 +43,11 @@ async function register(req, res) {
 
     const { challengeId, otp } = await createChallenge(user._id, 'email');
 
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-      console.log('\n========================================');
-      console.log('[SIMULATED EMAIL]');
-      console.log(`To: ${user.email}`);
-      console.log(`OTP: ${otp}`);
-      console.log('========================================\n');
-    }
+    console.log('\n========================================');
+    console.log('[SIMULATED EMAIL]');
+    console.log(`To: ${user.email}`);
+    console.log(`OTP: ${otp}`);
+    console.log('========================================\n');
 
     return res.status(201).json({
       success: true,
@@ -116,13 +114,11 @@ async function sendEmailOtp(req, res) {
 
     const { challengeId: newChallengeId, otp } = await createChallenge(user._id, 'email');
 
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-      console.log('\n========================================');
-      console.log('[SIMULATED EMAIL]');
-      console.log(`To: ${user.email}`);
-      console.log(`OTP: ${otp}`);
-      console.log('========================================\n');
-    }
+    console.log('\n========================================');
+    console.log('[SIMULATED EMAIL]');
+    console.log(`To: ${user.email}`);
+    console.log(`OTP: ${otp}`);
+    console.log('========================================\n');
 
     return res.status(200).json({
       success: true,
@@ -172,13 +168,11 @@ async function verifyEmailOtp(req, res) {
 
     const { challengeId: smsChallengeId, otp: smsOtp } = await createChallenge(user._id, 'sms');
 
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-      console.log('\n========================================');
-      console.log('[SIMULATED SMS]');
-      console.log(`To: ${user.phone}`);
-      console.log(`OTP: ${smsOtp}`);
-      console.log('========================================\n');
-    }
+    console.log('\n========================================');
+    console.log('[SIMULATED SMS]');
+    console.log(`To: ${user.phone}`);
+    console.log(`OTP: ${smsOtp}`);
+    console.log('========================================\n');
 
     return res.status(200).json({
       success: true,
@@ -244,13 +238,11 @@ async function sendSmsOtp(req, res) {
 
     const { challengeId: newChallengeId, otp } = await createChallenge(user._id, 'sms');
 
-    if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
-      console.log('\n========================================');
-      console.log('[SIMULATED SMS]');
-      console.log(`To: ${user.phone}`);
-      console.log(`OTP: ${otp}`);
-      console.log('========================================\n');
-    }
+    console.log('\n========================================');
+    console.log('[SIMULATED SMS]');
+    console.log(`To: ${user.phone}`);
+    console.log(`OTP: ${otp}`);
+    console.log('========================================\n');
 
     return res.status(200).json({
       success: true,
