@@ -1,10 +1,6 @@
-/**
- * Global error handling middleware.
- */
 function errorHandler(err, req, res, _next) {
   console.error('Unhandled error:', err);
 
-  // Mongoose validation error
   if (err.name === 'ValidationError') {
     const errors = {};
     for (const field of Object.keys(err.errors)) {
@@ -18,7 +14,6 @@ function errorHandler(err, req, res, _next) {
     });
   }
 
-  // Mongoose cast error (invalid ObjectId, etc.)
   if (err.name === 'CastError') {
     return res.status(400).json({
       success: false,
@@ -27,7 +22,6 @@ function errorHandler(err, req, res, _next) {
     });
   }
 
-  // Default
   return res.status(500).json({
     success: false,
     code: 'SERVER_ERROR',

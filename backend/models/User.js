@@ -62,11 +62,9 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Indexes (email unique index is auto-created by `unique: true` on the field)
 userSchema.index({ phone: 1 });
 userSchema.index({ registrationStatus: 1 });
 
-// Never return sensitive fields in JSON
 userSchema.methods.toJSON = function () {
   const obj = this.toObject();
   delete obj.passwordHash;

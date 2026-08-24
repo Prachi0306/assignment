@@ -21,8 +21,6 @@ const otpChallengeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // Store plaintext OTP ONLY in dev/test for the test endpoint.
-    // In production this field is never populated.
     otpPlain: {
       type: String,
       default: null,
@@ -49,7 +47,6 @@ const otpChallengeSchema = new mongoose.Schema(
   }
 );
 
-// TTL index: auto-delete expired challenges after 1 hour past expiry
 otpChallengeSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 3600 });
 otpChallengeSchema.index({ userId: 1, channel: 1 });
 

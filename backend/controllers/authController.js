@@ -4,14 +4,10 @@ const OtpChallenge = require('../models/OtpChallenge');
 const { createChallenge, verifyChallenge } = require('../utils/otp');
 const { validateRegistration } = require('../utils/validators');
 
-/**
- * POST /api/register
- */
 async function register(req, res) {
   try {
     const { name, email, phone, password, termsAccepted, privacyAccepted } = req.body;
 
-    // 1. Validate registration data
     const validationErrors = validateRegistration({ name, email, phone, password, termsAccepted, privacyAccepted });
     if (validationErrors) {
       return res.status(400).json({
@@ -22,7 +18,6 @@ async function register(req, res) {
       });
     }
 
-    // 2. Check if email already exists
     const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
     if (existingUser) {
       return res.status(409).json({
@@ -32,11 +27,9 @@ async function register(req, res) {
       });
     }
 
-    // 3. Hash the password
     const saltRounds = parseInt(process.env.BCRYPT_SALT_ROUNDS, 10) || 12;
     const passwordHash = await bcrypt.hash(password, saltRounds);
 
-    // 4. Create the user
     const user = await User.create({
       name: name.trim(),
       email: email.toLowerCase().trim(),
@@ -48,10 +41,8 @@ async function register(req, res) {
       registrationStatus: 'pending',
     });
 
-    // 5. Generate email OTP challenge
     const { challengeId, otp } = await createChallenge(user._id, 'email');
 
-    // 6. Simulated email delivery
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
       console.log('\n========================================');
       console.log('[SIMULATED EMAIL]');
@@ -60,7 +51,6 @@ async function register(req, res) {
       console.log('========================================\n');
     }
 
-    // 7. Response
     return res.status(201).json({
       success: true,
       message: 'Registration started. Please verify your email.',
@@ -70,7 +60,6 @@ async function register(req, res) {
   } catch (error) {
     console.error('Registration error:', error);
 
-    // Handle duplicate key error (race condition)
     if (error.code === 11000) {
       return res.status(409).json({
         success: false,
@@ -87,9 +76,6 @@ async function register(req, res) {
   }
 }
 
-/**
- * POST /api/send-email-otp
- */
 async function sendEmailOtp(req, res) {
   try {
     const { challengeId } = req.body;
@@ -102,7 +88,6 @@ async function sendEmailOtp(req, res) {
       });
     }
 
-    // Find the existing challenge to get the userId
     const existingChallenge = await OtpChallenge.findOne({ challengeId });
     if (!existingChallenge) {
       return res.status(404).json({
@@ -129,10 +114,8 @@ async function sendEmailOtp(req, res) {
       });
     }
 
-    // Create a new challenge (invalidates old one by creating fresh)
     const { challengeId: newChallengeId, otp } = await createChallenge(user._id, 'email');
 
-    // Simulated email delivery
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
       console.log('\n========================================');
       console.log('[SIMULATED EMAIL]');
@@ -157,9 +140,6 @@ async function sendEmailOtp(req, res) {
   }
 }
 
-/**
- * POST /api/verify-email-otp
- */
 async function verifyEmailOtp(req, res) {
   try {
     const { challengeId, otp } = req.body;
@@ -184,17 +164,14 @@ async function verifyEmailOtp(req, res) {
       });
     }
 
-    // Mark email as verified
     const challenge = await OtpChallenge.findOne({ challengeId });
     const user = await User.findById(challenge.userId);
     user.emailVerified = true;
     user.registrationStatus = 'email-verified';
     await user.save();
 
-    // Generate SMS OTP challenge
     const { challengeId: smsChallengeId, otp: smsOtp } = await createChallenge(user._id, 'sms');
 
-    // Simulated SMS delivery
     if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
       console.log('\n========================================');
       console.log('[SIMULATED SMS]');
@@ -219,9 +196,6 @@ async function verifyEmailOtp(req, res) {
   }
 }
 
-/**
- * POST /api/send-sms-otp
- */
 async function sendSmsOtp(req, res) {
   try {
     const { challengeId } = req.body;
@@ -294,9 +268,6 @@ async function sendSmsOtp(req, res) {
   }
 }
 
-/**
- * POST /api/verify-sms-otp
- */
 async function verifySmsOtp(req, res) {
   try {
     const { challengeId, otp } = req.body;
@@ -321,7 +292,6 @@ async function verifySmsOtp(req, res) {
       });
     }
 
-    // Mark phone as verified
     const challenge = await OtpChallenge.findOne({ challengeId });
     const user = await User.findById(challenge.userId);
     user.phoneVerified = true;

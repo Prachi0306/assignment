@@ -1,13 +1,5 @@
 const mongoose = require('mongoose');
 
-/**
- * Cached MongoDB connection for serverless environments (Vercel).
- * In traditional server mode (server.js), this also works — it just reuses
- * the existing connection if already established.
- *
- * Supports both MONGODB_URI and MONGO_URI environment variable names.
- */
-
 let cached = global.__mongooseConnection;
 
 if (!cached) {
@@ -15,7 +7,6 @@ if (!cached) {
 }
 
 async function connectDB() {
-  // If already connected, return immediately
   if (cached.conn && mongoose.connection.readyState === 1) {
     return cached.conn;
   }

@@ -13,7 +13,6 @@
 <body>
 
 <div class="page-wrapper">
-  <!-- ========== Brand Panel (Desktop Left Side) ========== -->
   <aside class="brand-panel" aria-label="SecureID branding">
     <div class="brand-content">
       <div class="brand-logo">
@@ -45,9 +44,7 @@
     </div>
   </aside>
 
-  <!-- ========== Main Content ========== -->
   <main class="main-content">
-    <!-- Mobile branding -->
     <div class="mobile-brand">
       <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="var(--primary-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -56,7 +53,6 @@
       <h2>SecureID</h2>
     </div>
 
-    <!-- ===== Screen 1: Login Form ===== -->
     <div id="screen-login" class="auth-card screen">
       <div class="card-header">
         <div class="header-icon">
@@ -70,11 +66,9 @@
         <p>Sign in to your SecureID account</p>
       </div>
 
-      <!-- Alert container -->
       <div id="login-alert" class="hidden"></div>
 
       <form id="login-form" novalidate>
-        <!-- Email -->
         <div class="form-group">
           <label class="form-label" for="login-email">Email Address</label>
           <div class="input-wrapper">
@@ -84,7 +78,6 @@
           <div id="login-email-error" class="form-error hidden"></div>
         </div>
 
-        <!-- Password -->
         <div class="form-group">
           <label class="form-label" for="login-password">Password</label>
           <div class="input-wrapper">
@@ -108,7 +101,6 @@
       </div>
     </div>
 
-    <!-- ===== Screen 2: MFA Verification ===== -->
     <div id="screen-login-mfa" class="auth-card screen hidden">
       <button type="button" class="back-link" id="btn-back-login">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>

@@ -1,8 +1,3 @@
-/**
- * Validation utility functions (server-side).
- * These mirror client-side validations but are the authoritative check.
- */
-
 function validateName(name) {
   if (!name || typeof name !== 'string') {
     return 'Full name is required.';
@@ -32,7 +27,6 @@ function validatePhone(phone) {
   if (!phone || typeof phone !== 'string') {
     return 'Mobile number is required.';
   }
-  // Accept international format: optional +, country code, 7-15 digits total
   const phoneRegex = /^\+?[1-9]\d{6,14}$/;
   if (!phoneRegex.test(phone.trim().replace(/[\s\-()]/g, ''))) {
     return 'Please provide a valid mobile number.';

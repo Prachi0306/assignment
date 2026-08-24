@@ -2,43 +2,23 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const OtpChallenge = require('../models/OtpChallenge');
 
-/**
- * Generate a cryptographically secure 6-digit OTP.
- */
 function generateOtp() {
-  // crypto.randomInt is cryptographically secure
   const otp = crypto.randomInt(100000, 999999).toString();
   return otp;
 }
 
-/**
- * Generate a unique challenge ID.
- */
 function generateChallengeId() {
   return crypto.randomUUID();
 }
 
-/**
- * Hash an OTP for storage (using bcrypt so timing-safe comparison is built in).
- */
 async function hashOtp(otp) {
   return bcrypt.hash(otp, 10);
 }
 
-/**
- * Compare a submitted OTP against the stored hash.
- */
 async function compareOtp(otp, hash) {
   return bcrypt.compare(otp, hash);
 }
 
-/**
- * Create a new OTP challenge.
- * @param {string} userId - The user's MongoDB _id
- * @param {string} channel - 'email' | 'sms' | 'mfa'
- * @param {object} options
- * @returns {object} { challengeId, otp } - otp is returned in-memory only for simulated delivery
- */
 async function createChallenge(userId, channel, options = {}) {
   const otp = generateOtp();
   const otpHash = await hashOtp(otp);
@@ -54,7 +34,7 @@ async function createChallenge(userId, channel, options = {}) {
     userId,
     channel,
     otpHash,
-    otpPlain: isDev ? otp : null, // Store plaintext only in dev for test endpoint
+    otpPlain: isDev ? otp : null,
     expiresAt: new Date(Date.now() + expiryMinutes * 60 * 1000),
     attempts: 0,
     maxAttempts,
@@ -64,10 +44,6 @@ async function createChallenge(userId, channel, options = {}) {
   return { challengeId, otp, challenge };
 }
 
-/**
- * Verify an OTP against a challenge.
- * Returns: { success, code, message }
- */
 async function verifyChallenge(challengeId, submittedOtp, expectedChannel) {
   const challenge = await OtpChallenge.findOne({ challengeId });
 
@@ -116,7 +92,6 @@ async function verifyChallenge(challengeId, submittedOtp, expectedChannel) {
     };
   }
 
-  // OTP is valid – mark as verified (single-use)
   challenge.verified = true;
   await challenge.save();
 

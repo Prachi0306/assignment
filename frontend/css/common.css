@@ -1,13 +1,6 @@
-/* ============================================
-   SecureID – Common Design System
-   ============================================ */
-
-/* Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* CSS Custom Properties */
 :root {
-  /* Primary palette */
   --primary-50: #eff6ff;
   --primary-100: #dbeafe;
   --primary-200: #bfdbfe;
@@ -19,7 +12,6 @@
   --primary-800: #1e40af;
   --primary-900: #1e3a8a;
 
-  /* Neutrals */
   --gray-50: #f8fafc;
   --gray-100: #f1f5f9;
   --gray-200: #e2e8f0;
@@ -31,7 +23,6 @@
   --gray-800: #1e293b;
   --gray-900: #0f172a;
 
-  /* Semantic */
   --success-50: #f0fdf4;
   --success-500: #22c55e;
   --success-600: #16a34a;
@@ -41,32 +32,27 @@
   --warning-50: #fffbeb;
   --warning-500: #f59e0b;
 
-  /* Background */
   --bg-page: #f0f4ff;
   --bg-card: #ffffff;
   --bg-brand: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
 
-  /* Shadows */
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.06);
   --shadow-card: 0 4px 24px rgba(30, 64, 175, 0.08);
 
-  /* Borders */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
   --radius-full: 9999px;
 
-  /* Transitions */
   --transition-fast: 150ms ease;
   --transition-base: 250ms ease;
   --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Reset */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -87,16 +73,12 @@ body {
   min-height: 100vh;
 }
 
-/* ============================================
-   Layout
-   ============================================ */
 .page-wrapper {
   display: flex;
   min-height: 100vh;
   width: 100%;
 }
 
-/* Brand panel (left side on desktop) */
 .brand-panel {
   display: none;
   flex-direction: column;
@@ -189,7 +171,6 @@ body {
   opacity: 0.8;
 }
 
-/* Main content area */
 .main-content {
   flex: 1;
   display: flex;
@@ -201,7 +182,6 @@ body {
   overflow-y: auto;
 }
 
-/* Mobile brand header */
 .mobile-brand {
   display: flex;
   align-items: center;
@@ -220,9 +200,6 @@ body {
   color: var(--primary-700);
 }
 
-/* ============================================
-   Card
-   ============================================ */
 .auth-card {
   background: var(--bg-card);
   border-radius: var(--radius-xl);
@@ -279,9 +256,6 @@ body {
   line-height: 1.5;
 }
 
-/* ============================================
-   Progress Indicator
-   ============================================ */
 .progress-bar {
   display: flex;
   align-items: center;
@@ -339,9 +313,6 @@ body {
   background: var(--success-500);
 }
 
-/* ============================================
-   Form Elements
-   ============================================ */
 .form-group {
   margin-bottom: 1.25rem;
 }
@@ -422,7 +393,6 @@ body {
   75% { transform: translateX(4px); }
 }
 
-/* Password toggle */
 .password-toggle {
   position: absolute;
   right: 14px;
@@ -442,7 +412,6 @@ body {
   color: var(--gray-600);
 }
 
-/* Password requirements */
 .password-requirements {
   margin-top: 0.5rem;
   padding: 0.75rem;
@@ -493,7 +462,6 @@ body {
   color: white;
 }
 
-/* Checkbox */
 .checkbox-group {
   display: flex;
   align-items: flex-start;
@@ -527,9 +495,6 @@ body {
   text-decoration: underline;
 }
 
-/* ============================================
-   Buttons
-   ============================================ */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -592,7 +557,6 @@ body {
   color: var(--gray-800);
 }
 
-/* Spinner */
 .btn .spinner {
   width: 18px;
   height: 18px;
@@ -606,9 +570,6 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* ============================================
-   OTP Input Group
-   ============================================ */
 .otp-input-group {
   display: flex;
   gap: 8px;
@@ -654,9 +615,6 @@ body {
   background: var(--success-50);
 }
 
-/* ============================================
-   OTP Info
-   ============================================ */
 .otp-info {
   text-align: center;
   margin: 1rem 0;
@@ -691,9 +649,6 @@ body {
   text-decoration: none;
 }
 
-/* ============================================
-   Alert Messages
-   ============================================ */
 .alert {
   padding: 12px 16px;
   border-radius: var(--radius-sm);
@@ -741,9 +696,6 @@ body {
   margin-top: 1px;
 }
 
-/* ============================================
-   Footer Links
-   ============================================ */
 .card-footer {
   text-align: center;
   margin-top: 1.5rem;
@@ -766,9 +718,6 @@ body {
   text-decoration: underline;
 }
 
-/* ============================================
-   MFA Specific
-   ============================================ */
 .mfa-options {
   display: flex;
   flex-direction: column;
@@ -834,7 +783,6 @@ body {
   color: var(--gray-500);
 }
 
-/* QR Code */
 .qr-container {
   text-align: center;
   margin: 1.5rem 0;
@@ -894,9 +842,6 @@ body {
   text-decoration: underline;
 }
 
-/* ============================================
-   Success Screen
-   ============================================ */
 .success-icon {
   width: 80px;
   height: 80px;
@@ -947,9 +892,6 @@ body {
   color: var(--gray-600);
 }
 
-/* ============================================
-   Utilities
-   ============================================ */
 .hidden {
   display: none !important;
 }
@@ -964,9 +906,6 @@ body {
 .mb-1 { margin-bottom: 0.5rem; }
 .mb-2 { margin-bottom: 1rem; }
 
-/* ============================================
-   Responsive – Desktop
-   ============================================ */
 @media (min-width: 768px) {
   .brand-panel {
     display: flex;
@@ -1003,9 +942,6 @@ body {
   }
 }
 
-/* ============================================
-   Animations
-   ============================================ */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

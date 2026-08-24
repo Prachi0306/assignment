@@ -13,7 +13,6 @@
 <body>
 
 <div class="page-wrapper">
-  <!-- ========== Brand Panel (Desktop Left Side) ========== -->
   <aside class="brand-panel" aria-label="SecureID branding">
     <div class="brand-content">
       <div class="brand-logo">
@@ -45,9 +44,7 @@
     </div>
   </aside>
 
-  <!-- ========== Main Content ========== -->
   <main class="main-content">
-    <!-- Mobile branding -->
     <div class="mobile-brand">
       <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="var(--primary-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -56,9 +53,7 @@
       <h2>SecureID</h2>
     </div>
 
-    <!-- ===== Screen: Registration Form ===== -->
     <div id="screen-register" class="auth-card screen">
-      <!-- Progress -->
       <div class="progress-bar">
         <div class="progress-step">
           <div class="step-dot active">1</div>
@@ -94,11 +89,9 @@
         <p>Join SecureID for enterprise-grade security</p>
       </div>
 
-      <!-- Alert placeholder -->
       <div id="register-alert" class="hidden"></div>
 
       <form id="register-form" novalidate>
-        <!-- Full Name -->
         <div class="form-group">
           <label class="form-label" for="reg-name">Full Name</label>
           <div class="input-wrapper">
@@ -108,7 +101,6 @@
           <div id="reg-name-error" class="form-error hidden"></div>
         </div>
 
-        <!-- Email -->
         <div class="form-group">
           <label class="form-label" for="reg-email">Email Address</label>
           <div class="input-wrapper">
@@ -118,7 +110,6 @@
           <div id="reg-email-error" class="form-error hidden"></div>
         </div>
 
-        <!-- Mobile Number -->
         <div class="form-group">
           <label class="form-label" for="reg-phone">Mobile Number</label>
           <div class="phone-input-wrapper">
@@ -128,7 +119,6 @@
           <div id="reg-phone-error" class="form-error hidden"></div>
         </div>
 
-        <!-- Password -->
         <div class="form-group">
           <label class="form-label" for="reg-password">Password</label>
           <div class="input-wrapper">
@@ -141,7 +131,6 @@
           </div>
           <div id="reg-password-error" class="form-error hidden"></div>
 
-          <!-- Password requirements -->
           <div class="password-requirements">
             <div class="req-title">Password Requirements</div>
             <div class="password-req" id="req-length">
@@ -163,7 +152,6 @@
           </div>
         </div>
 
-        <!-- Terms & Privacy -->
         <div class="form-group">
           <div class="checkbox-group">
             <input type="checkbox" id="reg-terms" />
@@ -187,7 +175,6 @@
       </div>
     </div>
 
-    <!-- ===== Screen: Email OTP ===== -->
     <div id="screen-email-otp" class="auth-card screen hidden">
       <div class="progress-bar">
         <div class="progress-step"><div class="step-dot completed">✓</div></div>
@@ -233,7 +220,6 @@
       </button>
     </div>
 
-    <!-- ===== Screen: SMS OTP ===== -->
     <div id="screen-sms-otp" class="auth-card screen hidden">
       <div class="progress-bar">
         <div class="progress-step"><div class="step-dot completed">✓</div></div>
@@ -279,7 +265,6 @@
       </button>
     </div>
 
-    <!-- ===== Screen: MFA Setup (method selection) ===== -->
     <div id="screen-mfa-setup" class="auth-card screen hidden">
       <div class="progress-bar">
         <div class="progress-step"><div class="step-dot completed">✓</div></div>
@@ -338,7 +323,6 @@
       </button>
     </div>
 
-    <!-- ===== Screen: Authenticator QR Setup ===== -->
     <div id="screen-mfa-qr" class="auth-card screen hidden">
       <div class="progress-bar">
         <div class="progress-step"><div class="step-dot completed">✓</div></div>
@@ -385,7 +369,6 @@
       </button>
     </div>
 
-    <!-- ===== Screen: MFA Verification OTP ===== -->
     <div id="screen-mfa-verify" class="auth-card screen hidden">
       <div class="progress-bar">
         <div class="progress-step"><div class="step-dot completed">✓</div></div>
@@ -425,7 +408,6 @@
       </button>
     </div>
 
-    <!-- ===== Screen: Registration Success ===== -->
     <div id="screen-success" class="auth-card screen hidden">
       <div class="progress-bar">
         <div class="progress-step"><div class="step-dot completed">✓</div></div>

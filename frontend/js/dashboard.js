@@ -1,7 +1,3 @@
-/**
- * SecureID – Dashboard Logic (Vanilla JS)
- */
-
 (function () {
   'use strict';
 
@@ -22,15 +18,13 @@
     }
 
     try {
-      // First try /api/me (session cookie), falls back to /api/dashboard
       const response = await fetch(`${API_BASE}/me`, {
         method: 'GET',
         headers,
-        credentials: 'include', // Include httpOnly session cookie
+        credentials: 'include',
       });
 
       if (response.status === 401) {
-        // Try /api/dashboard with Bearer token if /me rejected cookie
         if (token) {
           const dashRes = await fetch(`${API_BASE}/dashboard`, {
             method: 'GET',
@@ -61,11 +55,9 @@
   function renderUser(user) {
     if (!user) return;
 
-    // Render user info
     document.getElementById('user-name').textContent = user.name || 'User';
     document.getElementById('user-email').textContent = user.email || '';
 
-    // Initials
     const initials = (user.name || 'ID')
       .split(' ')
       .map((n) => n[0])
@@ -74,7 +66,6 @@
       .slice(0, 2);
     document.getElementById('avatar-initials').textContent = initials || 'ID';
 
-    // Account details
     document.getElementById('detail-phone').textContent = user.phone || '--';
     document.getElementById('detail-status').textContent =
       user.registrationStatus === 'complete' ? 'Active / Complete' : user.registrationStatus;
@@ -88,7 +79,6 @@
       });
     }
 
-    // Badges
     document.getElementById('badge-email').textContent = user.emailVerified ? 'Verified' : 'Pending';
     document.getElementById('badge-phone').textContent = user.phoneVerified ? 'Verified' : 'Pending';
     document.getElementById('badge-mfa').textContent = user.mfaEnabled ? 'Active' : 'Disabled';
@@ -99,10 +89,9 @@
       await fetch(`${API_BASE}/logout`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // Clear server session cookie
+        credentials: 'include',
       });
     } catch (e) {
-      // Continue cleanup on frontend
     }
 
     sessionStorage.removeItem('secureid_token');

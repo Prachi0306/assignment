@@ -3,13 +3,6 @@ const router = express.Router();
 const OtpChallenge = require('../models/OtpChallenge');
 const mfaController = require('../controllers/mfaController');
 
-/**
- * TEST-ONLY ROUTES
- * These endpoints are only available when NODE_ENV is 'development' or 'test'.
- * They MUST be disabled in production.
- */
-
-// Guard: block all test routes in production
 router.use((req, res, next) => {
   if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test') {
     return res.status(404).json({ success: false, message: 'Not found.' });
@@ -17,10 +10,6 @@ router.use((req, res, next) => {
   next();
 });
 
-/**
- * GET /api/test/otp/:challengeId
- * Retrieve the plaintext OTP for a given challenge (development/test only).
- */
 router.get('/otp/:challengeId', async (req, res) => {
   try {
     const { challengeId } = req.params;
@@ -56,10 +45,6 @@ router.get('/otp/:challengeId', async (req, res) => {
   }
 });
 
-/**
- * POST /api/test/mfa-otp
- * Generate a valid TOTP for the user (development/test only).
- */
 router.post('/mfa-otp', mfaController.generateTestMfaOtp);
 
 module.exports = router;

@@ -1,28 +1,14 @@
-/**
- * SecureID – Registration Journey (Vanilla JS)
- * All screens are managed in a single page with state-driven transitions.
- */
-
 (function () {
   'use strict';
 
-  // ============================================
-  // Configuration
-  // ============================================
   const API_BASE = (() => {
-    // 1. Explicit override (e.g., for custom deployments)
     if (window.API_BASE_URL) return window.API_BASE_URL;
-    // 2. Local dev with Live Server (frontend on :5500, backend on :3000)
     if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
       if (window.location.port === '5500') return 'http://localhost:3000/api';
     }
-    // 3. Same-origin (production on Vercel, or backend serving frontend)
     return `${window.location.origin}/api`;
   })();
 
-  // ============================================
-  // State
-  // ============================================
   const state = {
     currentScreen: 'register',
     challengeId: null,
@@ -35,9 +21,6 @@
     timers: {},
   };
 
-  // ============================================
-  // Screen Management
-  // ============================================
   const screens = [
     'screen-register',
     'screen-email-otp',
@@ -55,7 +38,6 @@
         if (id === screenId) {
           el.classList.remove('hidden');
           el.style.animation = 'none';
-          // Force reflow then re-apply animation
           el.offsetHeight;
           el.style.animation = '';
         } else {
@@ -66,9 +48,6 @@
     state.currentScreen = screenId;
   }
 
-  // ============================================
-  // API Helper
-  // ============================================
   async function apiCall(endpoint, method = 'POST', body = null) {
     const options = {
       method,
@@ -81,9 +60,6 @@
     return { status: response.status, ...data };
   }
 
-  // ============================================
-  // Alert Helper
-  // ============================================
   function showAlert(containerId, type, message) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -108,9 +84,6 @@
     }
   }
 
-  // ============================================
-  // Validation
-  // ============================================
   function showFieldError(fieldId, message) {
     const errorEl = document.getElementById(`${fieldId}-error`);
     const inputEl = document.getElementById(fieldId);
@@ -189,9 +162,6 @@
       : null;
   }
 
-  // ============================================
-  // Password Requirements Live Update
-  // ============================================
   function updatePasswordRequirements() {
     const password = document.getElementById('reg-password').value;
 
@@ -216,9 +186,6 @@
     });
   }
 
-  // ============================================
-  // Password Toggle
-  // ============================================
   function initPasswordToggle() {
     const toggleBtn = document.getElementById('toggle-password');
     const passwordInput = document.getElementById('reg-password');
@@ -235,16 +202,12 @@
     }
   }
 
-  // ============================================
-  // OTP Input Management
-  // ============================================
   function initOtpInputs(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
     const inputs = container.querySelectorAll('.otp-input');
 
     inputs.forEach((input, index) => {
-      // Only allow numeric input
       input.addEventListener('input', (e) => {
         const value = e.target.value.replace(/[^0-9]/g, '');
         e.target.value = value;
@@ -253,11 +216,9 @@
           inputs[index + 1].focus();
         }
 
-        // Clear error states on input
         inputs.forEach((inp) => inp.classList.remove('error'));
       });
 
-      // Handle backspace
       input.addEventListener('keydown', (e) => {
         if (e.key === 'Backspace' && !e.target.value && index > 0) {
           inputs[index - 1].focus();
@@ -265,7 +226,6 @@
         }
       });
 
-      // Handle paste
       input.addEventListener('paste', (e) => {
         e.preventDefault();
         const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
@@ -314,7 +274,6 @@
     if (inputs[5]) inputs[5].focus();
   }
 
-  // Dev-only helper: query test endpoint to show simulated OTP
   async function showDevOtpHelper(containerId, inputGroupId, challengeId) {
     try {
       const res = await fetch(`${API_BASE}/test/otp/${challengeId}`);
@@ -341,15 +300,10 @@
         }
       }
     } catch (e) {
-      // Ignore if in production or network error
     }
   }
 
-  // ============================================
-  // Timer Management
-  // ============================================
   function startTimer(timerId, displayId, durationSeconds, onExpire) {
-    // Clear existing timer
     if (state.timers[timerId]) {
       clearInterval(state.timers[timerId]);
     }
@@ -395,9 +349,6 @@
     }
   }
 
-  // ============================================
-  // Button Loading State
-  // ============================================
   function setButtonLoading(btnId, loading) {
     const btn = document.getElementById(btnId);
     if (!btn) return;
@@ -411,9 +362,6 @@
     }
   }
 
-  // ============================================
-  // Mask helpers
-  // ============================================
   function maskEmail(email) {
     if (!email) return '';
     const [local, domain] = email.split('@');
@@ -427,11 +375,6 @@
     return phone.slice(0, -4).replace(/./g, '•') + phone.slice(-4);
   }
 
-  // ============================================
-  // Registration Flow
-  // ============================================
-
-  // 1. Registration Form Submit
   async function handleRegister(e) {
     e.preventDefault();
     const formData = validateForm();
@@ -449,7 +392,6 @@
         state.phone = formData.phone;
         state.name = formData.name;
 
-        // Show email OTP screen
         document.getElementById('email-display').textContent = maskEmail(formData.email);
         showScreen('screen-email-otp');
         clearOtpInputs('email-otp-inputs');
@@ -475,18 +417,15 @@
     }
   }
 
-  // 2. Email OTP Timer
   function startEmailOtpTimer() {
     startTimer('email-otp-timer', 'email-timer-value', 180, () => {
       enableResend('email-resend-btn');
     });
     disableResend('email-resend-btn');
 
-    // Enable resend after 30s even if timer hasn't expired
     setTimeout(() => enableResend('email-resend-btn'), 30000);
   }
 
-  // 3. Verify Email OTP
   async function handleVerifyEmail() {
     const otp = getOtpValue('email-otp-inputs');
     if (otp.length !== 6) {
@@ -507,7 +446,6 @@
       if (result.success) {
         state.challengeId = result.challengeId;
 
-        // Show SMS OTP screen
         document.getElementById('phone-display').textContent = maskPhone(state.phone);
         showScreen('screen-sms-otp');
         clearOtpInputs('sms-otp-inputs');
@@ -533,7 +471,6 @@
     }
   }
 
-  // 4. Resend Email OTP
   async function handleResendEmail() {
     disableResend('email-resend-btn');
     hideAlert('email-otp-alert');
@@ -558,7 +495,6 @@
     }
   }
 
-  // 5. SMS OTP Timer
   function startSmsOtpTimer() {
     startTimer('sms-otp-timer', 'sms-timer-value', 180, () => {
       enableResend('sms-resend-btn');
@@ -567,7 +503,6 @@
     setTimeout(() => enableResend('sms-resend-btn'), 30000);
   }
 
-  // 6. Verify SMS OTP
   async function handleVerifySms() {
     const otp = getOtpValue('sms-otp-inputs');
     if (otp.length !== 6) {
@@ -607,7 +542,6 @@
     }
   }
 
-  // 7. Resend SMS OTP
   async function handleResendSms() {
     disableResend('sms-resend-btn');
     hideAlert('sms-otp-alert');
@@ -632,7 +566,6 @@
     }
   }
 
-  // 8. MFA Setup
   function initMfaOptions() {
     const options = document.querySelectorAll('.mfa-option');
     options.forEach((opt) => {
@@ -645,7 +578,6 @@
   }
 
   async function handleMfaContinue() {
-    // For this assignment, we always use Authenticator App
     setButtonLoading('btn-mfa-continue', true);
 
     try {
@@ -666,12 +598,10 @@
     }
   }
 
-  // 9. MFA QR Continue → show verification input
   async function handleMfaQrContinue() {
     showScreen('screen-mfa-verify');
     clearOtpInputs('mfa-otp-inputs');
 
-    // Fetch dev test TOTP for easy testing
     try {
       const res = await fetch(`${API_BASE}/test/mfa-otp`, {
         method: 'POST',
@@ -702,7 +632,6 @@
     } catch (e) {}
   }
 
-  // 10. Verify MFA
   async function handleVerifyMfa() {
     const otp = getOtpValue('mfa-otp-inputs');
     if (otp.length !== 6) {
@@ -734,7 +663,6 @@
     }
   }
 
-  // 11. Copy setup key
   function handleCopyKey() {
     const key = state.mfaSetupKey;
     if (!key) return;
@@ -749,19 +677,14 @@
     });
   }
 
-  // 12. Back to MFA selection from QR
   function handleBackMfa() {
     showScreen('screen-mfa-setup');
   }
 
-  // 13. Success → Login
   function handleGoLogin() {
     window.location.href = 'login.html';
   }
 
-  // ============================================
-  // Confetti Animation
-  // ============================================
   function spawnConfetti() {
     const container = document.createElement('div');
     container.className = 'success-confetti';
@@ -785,50 +708,38 @@
     setTimeout(() => container.remove(), 4000);
   }
 
-  // ============================================
-  // Event Listeners
-  // ============================================
   function init() {
-    // Registration form
     document.getElementById('register-form').addEventListener('submit', handleRegister);
     document.getElementById('reg-password').addEventListener('input', updatePasswordRequirements);
     initPasswordToggle();
 
-    // Clear field errors on input
     ['reg-name', 'reg-email', 'reg-phone', 'reg-password'].forEach((id) => {
       const el = document.getElementById(id);
       if (el) el.addEventListener('input', () => clearFieldError(id));
     });
 
-    // Email OTP
     initOtpInputs('email-otp-inputs');
     document.getElementById('btn-verify-email').addEventListener('click', handleVerifyEmail);
     document.getElementById('email-resend-btn').addEventListener('click', handleResendEmail);
 
-    // SMS OTP
     initOtpInputs('sms-otp-inputs');
     document.getElementById('btn-verify-sms').addEventListener('click', handleVerifySms);
     document.getElementById('sms-resend-btn').addEventListener('click', handleResendSms);
 
-    // MFA
     initMfaOptions();
     document.getElementById('btn-mfa-continue').addEventListener('click', handleMfaContinue);
     document.getElementById('btn-mfa-qr-continue').addEventListener('click', handleMfaQrContinue);
     document.getElementById('btn-back-mfa').addEventListener('click', handleBackMfa);
     document.getElementById('btn-copy-key').addEventListener('click', handleCopyKey);
 
-    // MFA Verify
     initOtpInputs('mfa-otp-inputs');
     document.getElementById('btn-verify-mfa').addEventListener('click', handleVerifyMfa);
 
-    // Success
     document.getElementById('btn-go-login').addEventListener('click', handleGoLogin);
 
-    // Show initial screen
     showScreen('screen-register');
   }
 
-  // Start when DOM is ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
   } else {

@@ -1,7 +1,3 @@
-/**
- * SecureID – Login Journey (Vanilla JS)
- */
-
 (function () {
   'use strict';
 
@@ -26,7 +22,7 @@
         if (id === screenId) {
           el.classList.remove('hidden');
           el.style.animation = 'none';
-          el.offsetHeight; // Reflow
+          el.offsetHeight;
           el.style.animation = '';
         } else {
           el.classList.add('hidden');
@@ -158,7 +154,6 @@
     container.querySelectorAll('.otp-input').forEach((inp) => inp.classList.add('error'));
   }
 
-  // Handle Login Form Submit
   async function handleLogin(e) {
     e.preventDefault();
     hideAlert('login-alert');
@@ -183,7 +178,6 @@
           showScreen('screen-login-mfa');
           clearOtpInputs('login-mfa-inputs');
 
-          // Fetch test TOTP for easy testing
           try {
             const res = await fetch(`${API_BASE}/test/mfa-otp`, {
               method: 'POST',
@@ -220,7 +214,6 @@
             }
           } catch (e) {}
         } else if (result.token) {
-          // Store token in sessionStorage (not localStorage)
           sessionStorage.setItem('secureid_token', result.token);
           window.location.href = 'dashboard.html';
         }
@@ -234,7 +227,6 @@
     }
   }
 
-  // Handle MFA Verification Submit
   async function handleVerifyLoginMfa() {
     hideAlert('login-mfa-alert');
     const otp = getOtpValue('login-mfa-inputs');
@@ -254,7 +246,6 @@
       });
 
       if (result.success && result.token) {
-        // Store token in sessionStorage
         sessionStorage.setItem('secureid_token', result.token);
         window.location.href = 'dashboard.html';
       } else {

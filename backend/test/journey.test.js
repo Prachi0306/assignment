@@ -12,7 +12,6 @@ async function runTests() {
   await mongoose.connect(MONGODB_URI);
   console.log('Connected to test DB.');
 
-  // Clean test DB
   await User.deleteMany({ email: /test.*@example\.com/ });
   await OtpChallenge.deleteMany({});
 
@@ -22,7 +21,6 @@ async function runTests() {
   const testPhone = '+919876543210';
   const testPassword = 'Password@123';
 
-  // 1. Test Registration Validation Failure
   console.log('1️⃣ Testing Registration Validation Failures...');
   const resInvalid = await request(app)
     .post('/api/register')
@@ -31,7 +29,6 @@ async function runTests() {
   console.assert(resInvalid.body.code === 'VALIDATION_ERROR', 'Expected VALIDATION_ERROR code');
   console.log('   ✅ Validation rejection passed.\n');
 
-  // 2. Test Registration Success
   console.log('2️⃣ Testing Registration Success (POST /api/register)...');
   const resReg = await request(app)
     .post('/api/register')
@@ -51,7 +48,6 @@ async function runTests() {
   testChallengeId = resReg.body.challengeId;
   console.log('   ✅ Registration created user & returned email OTP challenge ID:', testChallengeId);
 
-  // 3. Test Duplicate Email
   console.log('3️⃣ Testing Duplicate Email Prevention...');
   const resDup = await request(app)
     .post('/api/register')
@@ -67,7 +63,6 @@ async function runTests() {
   console.assert(resDup.body.code === 'EMAIL_EXISTS', 'Expected EMAIL_EXISTS code');
   console.log('   ✅ Duplicate email rejected.\n');
 
-  // 4. Test-Only Endpoint OTP Retrieval (Dev/Test only)
   console.log('4️⃣ Testing Dev-Only OTP Retrieval (GET /api/test/otp/:challengeId)...');
   const resTestOtp = await request(app).get(`/api/test/otp/${testChallengeId}`);
   console.assert(resTestOtp.status === 200, 'Expected 200 for test OTP retrieval in dev mode');
@@ -75,7 +70,6 @@ async function runTests() {
   const emailOtp = resTestOtp.body.otp;
   console.log('   ✅ Retrieved test OTP securely for evaluator testing:', emailOtp);
 
-  // 5. Test Email OTP - Wrong Code
   console.log('5️⃣ Testing Email OTP - Wrong Code (State 3)...');
   const resWrongOtp = await request(app)
     .post('/api/verify-email-otp')
@@ -85,7 +79,6 @@ async function runTests() {
   console.assert(resWrongOtp.body.attemptsRemaining === 2, 'Expected 2 attempts remaining');
   console.log('   ✅ Wrong OTP handled properly, attempts decremented.\n');
 
-  // 6. Test Email OTP - Correct Verification
   console.log('6️⃣ Testing Email OTP - Correct Verification (POST /api/verify-email-otp)...');
   const resVerifyEmail = await request(app)
     .post('/api/verify-email-otp')
@@ -96,7 +89,6 @@ async function runTests() {
   const smsChallengeId = resVerifyEmail.body.challengeId;
   console.log('   ✅ Email verified! Progressed to SMS OTP challenge:', smsChallengeId);
 
-  // 7. Test Email OTP - Single Use / Already Used
   console.log('7️⃣ Testing Email OTP - Single Use (Re-verifying same challenge)...');
   const resReused = await request(app)
     .post('/api/verify-email-otp')
@@ -105,12 +97,10 @@ async function runTests() {
   console.assert(resReused.body.code === 'OTP_ALREADY_USED', 'Expected OTP_ALREADY_USED');
   console.log('   ✅ Single-use enforcement verified.\n');
 
-  // 8. Test SMS OTP - Max Attempts
   console.log('8️⃣ Testing SMS OTP - Max Attempts (State 7)...');
   const resTestSmsOtp = await request(app).get(`/api/test/otp/${smsChallengeId}`);
   const validSmsOtp = resTestSmsOtp.body.otp;
 
-  // Send 3 wrong attempts to hit limit
   await request(app).post('/api/verify-sms-otp').send({ challengeId: smsChallengeId, otp: '111111' });
   await request(app).post('/api/verify-sms-otp').send({ challengeId: smsChallengeId, otp: '222222' });
   const resMaxAttempts = await request(app).post('/api/verify-sms-otp').send({ challengeId: smsChallengeId, otp: '333333' });
@@ -118,7 +108,6 @@ async function runTests() {
   console.assert(resMaxAttempts.body.code === 'OTP_MAX_ATTEMPTS', 'Expected OTP_MAX_ATTEMPTS');
   console.log('   ✅ Max attempts enforced properly.\n');
 
-  // 9. Resend SMS OTP
   console.log('9️⃣ Testing Resend SMS OTP (POST /api/send-sms-otp)...');
   const resResendSms = await request(app).post('/api/send-sms-otp').send({ challengeId: smsChallengeId });
   console.assert(resResendSms.status === 200, 'Expected 200 for SMS resend');
@@ -127,7 +116,6 @@ async function runTests() {
   const newValidSmsOtp = resNewSmsOtp.body.otp;
   console.log('   ✅ New SMS OTP challenge generated:', newSmsChallengeId);
 
-  // 10. Verify SMS OTP
   console.log('🔟 Testing SMS OTP Verification...');
   const resVerifySms = await request(app)
     .post('/api/verify-sms-otp')
@@ -138,7 +126,6 @@ async function runTests() {
   testUserId = resVerifySms.body.userId;
   console.log('   ✅ SMS verified! User ID for MFA:', testUserId);
 
-  // 11. MFA Setup (Authenticator QR & Secret)
   console.log('\n1️⃣1️⃣ Testing MFA Setup (POST /api/mfa/setup)...');
   const resMfaSetup = await request(app)
     .post('/api/mfa/setup')
@@ -148,7 +135,6 @@ async function runTests() {
   console.assert(!!resMfaSetup.body.setupKey, 'Expected setupKey base32 string');
   console.log('   ✅ MFA setup generated QR code & setupKey:', resMfaSetup.body.setupKey);
 
-  // 12. MFA Verification - Wrong Code
   console.log('1️⃣2️⃣ Testing MFA Verification - Wrong Code (State 11)...');
   const resWrongMfa = await request(app)
     .post('/api/mfa/verify')
@@ -157,7 +143,6 @@ async function runTests() {
   console.assert(resWrongMfa.body.code === 'INVALID_OTP', 'Expected INVALID_OTP');
   console.log('   ✅ Wrong TOTP rejected properly.\n');
 
-  // 13. MFA Verification - Correct Code
   console.log('1️⃣3️⃣ Testing MFA Verification - Correct TOTP (State 12 Success)...');
   const resMfaOtp = await request(app).post('/api/test/mfa-otp').send({ userId: testUserId });
   const validTotp = resMfaOtp.body.otp;
@@ -170,7 +155,6 @@ async function runTests() {
   console.assert(resVerifyMfa.body.next === 'registration-success', 'Expected next=registration-success');
   console.log('   ✅ MFA Verified! Registration Complete.\n');
 
-  // 14. Verify DB User Record Final State
   console.log('1️⃣4️⃣ Verifying Database User Record...');
   const finalUser = await User.findById(testUserId);
   console.assert(finalUser.emailVerified === true, 'emailVerified should be true');

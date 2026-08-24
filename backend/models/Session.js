@@ -23,7 +23,6 @@ const sessionSchema = new mongoose.Schema(
   }
 );
 
-// TTL index to automatically clean up expired sessions from MongoDB
 sessionSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 
 module.exports = mongoose.model('Session', sessionSchema);

@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 const Session = require('../models/Session');
 const User = require('../models/User');
 
-// Enforce JWT_SECRET in production — never fall back to an insecure default
 const JWT_SECRET = (() => {
   if (process.env.JWT_SECRET) return process.env.JWT_SECRET;
   if (process.env.NODE_ENV === 'production') {
@@ -12,11 +11,6 @@ const JWT_SECRET = (() => {
   return 'secureid-dev-secret';
 })();
 
-/**
- * Server-side Session Authentication Middleware.
- * Validates the `sessionId` cookie (or `x-session-id` header).
- * Looks up session in MongoDB and verifies expiration.
- */
 async function sessionAuthMiddleware(req, res, next) {
   const sessionId = req.cookies?.sessionId || req.headers['x-session-id'];
 
@@ -65,10 +59,6 @@ async function sessionAuthMiddleware(req, res, next) {
   }
 }
 
-/**
- * JWT Authentication Middleware (Bearer <token>).
- * Validates JWT signature and expiration.
- */
 function jwtAuthMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
@@ -105,11 +95,7 @@ function jwtAuthMiddleware(req, res, next) {
   }
 }
 
-/**
- * Flexible Auth Middleware (supports either Session Cookie or Bearer JWT).
- */
 async function authMiddleware(req, res, next) {
-  // Check session cookie first
   const sessionId = req.cookies?.sessionId || req.headers['x-session-id'];
   if (sessionId) {
     try {
@@ -127,11 +113,9 @@ async function authMiddleware(req, res, next) {
         }
       }
     } catch (e) {
-      // Fall through to JWT check
     }
   }
 
-  // Check Bearer JWT token
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
     const token = authHeader.split(' ')[1];

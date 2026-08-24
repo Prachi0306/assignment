@@ -1,13 +1,7 @@
-/* ============================================
-   Registration Page Specific Styles
-   ============================================ */
-
-/* Screen transitions */
 .screen {
   animation: cardSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Phone input prefix */
 .phone-input-wrapper {
   display: flex;
   gap: 8px;
@@ -57,7 +51,6 @@
   background: var(--error-50);
 }
 
-/* Section divider */
 .section-divider {
   display: flex;
   align-items: center;
@@ -79,7 +72,6 @@
   font-weight: 500;
 }
 
-/* Masked contact display */
 .contact-display {
   text-align: center;
   margin: 0.5rem 0 0.25rem;
@@ -90,7 +82,6 @@
   color: var(--gray-800);
 }
 
-/* Back button styling for OTP screens */
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -114,7 +105,6 @@
   height: 16px;
 }
 
-/* Confetti / Success animation overlay */
 .success-confetti {
   position: fixed;
   top: 0;

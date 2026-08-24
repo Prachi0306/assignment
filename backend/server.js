@@ -6,10 +6,8 @@ const PORT = process.env.PORT || 3000;
 
 async function startServer() {
   try {
-    // Connect to MongoDB
     await connectDB();
 
-    // Start Express server
     app.listen(PORT, () => {
       console.log(`\n🚀 SecureID API Server running on http://localhost:${PORT}`);
       console.log(`📋 Environment: ${process.env.NODE_ENV || 'development'}`);
@@ -41,7 +39,6 @@ async function startServer() {
   }
 }
 
-// Handle unhandled rejections
 process.on('unhandledRejection', (err) => {
   console.error('Unhandled rejection:', err);
   process.exit(1);
