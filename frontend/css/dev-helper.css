@@ -1,0 +1,54 @@
+/* ============================================
+   Dev Mode Helper Toast
+   ============================================ */
+.dev-simulated-banner {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  color: #f8fafc;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.25rem;
+  font-size: 0.825rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 4px solid var(--primary-500);
+  box-shadow: var(--shadow-md);
+  animation: alertSlide 0.3s ease;
+}
+
+.dev-simulated-banner .dev-badge {
+  background: var(--primary-600);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 6px;
+}
+
+.dev-simulated-banner .dev-code {
+  font-family: 'Courier New', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #60a5fa;
+  letter-spacing: 1px;
+}
+
+.dev-simulated-banner .btn-autofill {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.dev-simulated-banner .btn-autofill:hover {
+  background: var(--primary-600);
+  border-color: var(--primary-500);
+}

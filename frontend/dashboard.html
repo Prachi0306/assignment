@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SecureID – User Security Dashboard" />
+  <title>SecureID – Account Dashboard</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+</head>
+<body>
+
+<div class="page-wrapper" style="flex-direction: column; min-height: 100vh; background: var(--bg-page);">
+  <!-- Top Navigation Header -->
+  <header style="background: white; border-bottom: 1px solid var(--gray-200); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center;">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--primary-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      <h2 style="font-size: 1.25rem; font-weight: 700; color: var(--gray-900);">SecureID</h2>
+    </div>
+    <button id="btn-logout" class="btn-logout" type="button">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Sign Out
+    </button>
+  </header>
+
+  <!-- Dashboard Main Content -->
+  <main style="flex: 1; padding: 2rem 1.5rem;">
+    <div class="dashboard-container">
+      <!-- User Profile Header -->
+      <div class="dashboard-header">
+        <div class="dashboard-user-info">
+          <div class="user-avatar" id="avatar-initials">--</div>
+          <div class="user-details">
+            <h2 id="user-name">Loading...</h2>
+            <p id="user-email">Please wait</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security Status Grid -->
+      <h3 style="font-size: 1.1rem; color: var(--gray-800); margin-bottom: 1rem;">Security Overview</h3>
+      <div class="security-cards-grid">
+        <div class="security-card">
+          <div class="security-card-header">
+            <div class="security-card-icon active">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div>
+              <h4>Email Verification</h4>
+              <span class="status-badge verified" id="badge-email">Verified</span>
+            </div>
+          </div>
+          <p>Email address is confirmed and active for alerts.</p>
+        </div>
+
+        <div class="security-card">
+          <div class="security-card-header">
+            <div class="security-card-icon active">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+            </div>
+            <div>
+              <h4>SMS Verification</h4>
+              <span class="status-badge verified" id="badge-phone">Verified</span>
+            </div>
+          </div>
+          <p>Mobile number is verified for secure recovery.</p>
+        </div>
+
+        <div class="security-card">
+          <div class="security-card-header">
+            <div class="security-card-icon active">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+            </div>
+            <div>
+              <h4>Authenticator MFA</h4>
+              <span class="status-badge verified" id="badge-mfa">Active</span>
+            </div>
+          </div>
+          <p>Time-based One-Time Password (TOTP) enabled.</p>
+        </div>
+      </div>
+
+      <!-- Account Details Summary -->
+      <h3 style="font-size: 1.1rem; color: var(--gray-800); margin-bottom: 1rem;">Account Information</h3>
+      <div class="account-details-list">
+        <div class="account-detail-item">
+          <span class="label">Account Status</span>
+          <span class="value" id="detail-status" style="color: var(--success-600);">Complete</span>
+        </div>
+        <div class="account-detail-item">
+          <span class="label">Mobile Number</span>
+          <span class="value" id="detail-phone">--</span>
+        </div>
+        <div class="account-detail-item">
+          <span class="label">Member Since</span>
+          <span class="value" id="detail-created">--</span>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/dashboard.js"></script>
+</body>
+</html>

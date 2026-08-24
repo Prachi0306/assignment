@@ -1,0 +1,166 @@
+/* ============================================
+   SecureID – Dashboard CSS
+   ============================================ */
+
+.dashboard-container {
+  width: 100%;
+  max-width: 800px;
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  padding: 2.5rem;
+  margin: 2rem auto;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gray-200);
+  padding-bottom: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--primary-100);
+  color: var(--primary-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.user-details h2 {
+  font-size: 1.35rem;
+  color: var(--gray-900);
+  margin-bottom: 2px;
+}
+
+.user-details p {
+  color: var(--gray-500);
+  font-size: 0.9rem;
+}
+
+.btn-logout {
+  width: auto;
+  padding: 8px 18px;
+  font-size: 0.85rem;
+  border: 1.5px solid var(--gray-300);
+  background: transparent;
+  color: var(--gray-700);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all var(--transition-fast);
+}
+
+.btn-logout:hover {
+  background: var(--error-50);
+  color: var(--error-600);
+  border-color: var(--error-500);
+}
+
+.security-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.security-card {
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  background: var(--gray-50);
+  transition: transform var(--transition-fast);
+}
+
+.security-card:hover {
+  transform: translateY(-2px);
+}
+
+.security-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.75rem;
+}
+
+.security-card-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.security-card-icon.active {
+  background: var(--success-50);
+  color: var(--success-600);
+}
+
+.security-card h4 {
+  font-size: 0.95rem;
+  color: var(--gray-800);
+}
+
+.security-card p {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  margin-top: 0.5rem;
+}
+
+.status-badge.verified {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.account-details-list {
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+}
+
+.account-detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 0.875rem;
+}
+
+.account-detail-item:last-child {
+  border-bottom: none;
+}
+
+.account-detail-item .label {
+  color: var(--gray-500);
+}
+
+.account-detail-item .value {
+  font-weight: 600;
+  color: var(--gray-800);
+}

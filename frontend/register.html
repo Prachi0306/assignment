@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SecureID – Create your secure account with multi-factor authentication." />
+  <title>SecureID – Create Account</title>
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/register.css" />
+  <link rel="stylesheet" href="css/dev-helper.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+</head>
+<body>
+
+<div class="page-wrapper">
+  <!-- ========== Brand Panel (Desktop Left Side) ========== -->
+  <aside class="brand-panel" aria-label="SecureID branding">
+    <div class="brand-content">
+      <div class="brand-logo">
+        <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+        <h1>SecureID</h1>
+      </div>
+      <p class="brand-tagline">Your trusted identity platform. Secure authentication made simple and reliable.</p>
+      <ul class="brand-features">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          Multi-factor authentication
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          End-to-end encryption
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Enterprise-grade security
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Real-time threat protection
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- ========== Main Content ========== -->
+  <main class="main-content">
+    <!-- Mobile branding -->
+    <div class="mobile-brand">
+      <svg class="shield-icon" viewBox="0 0 24 24" fill="none" stroke="var(--primary-600)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      <h2>SecureID</h2>
+    </div>
+
+    <!-- ===== Screen: Registration Form ===== -->
+    <div id="screen-register" class="auth-card screen">
+      <!-- Progress -->
+      <div class="progress-bar">
+        <div class="progress-step">
+          <div class="step-dot active">1</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="progress-step">
+          <div class="step-dot pending">2</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="progress-step">
+          <div class="step-dot pending">3</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="progress-step">
+          <div class="step-dot pending">4</div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="progress-step">
+          <div class="step-dot pending">5</div>
+        </div>
+      </div>
+
+      <div class="card-header">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <line x1="19" y1="8" x2="19" y2="14"/>
+            <line x1="22" y1="11" x2="16" y2="11"/>
+          </svg>
+        </div>
+        <h2>Create your account</h2>
+        <p>Join SecureID for enterprise-grade security</p>
+      </div>
+
+      <!-- Alert placeholder -->
+      <div id="register-alert" class="hidden"></div>
+
+      <form id="register-form" novalidate>
+        <!-- Full Name -->
+        <div class="form-group">
+          <label class="form-label" for="reg-name">Full Name</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <input type="text" id="reg-name" class="form-input" placeholder="Enter your full name" autocomplete="name" />
+          </div>
+          <div id="reg-name-error" class="form-error hidden"></div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label class="form-label" for="reg-email">Email Address</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <input type="email" id="reg-email" class="form-input" placeholder="Enter your email" autocomplete="email" />
+          </div>
+          <div id="reg-email-error" class="form-error hidden"></div>
+        </div>
+
+        <!-- Mobile Number -->
+        <div class="form-group">
+          <label class="form-label" for="reg-phone">Mobile Number</label>
+          <div class="phone-input-wrapper">
+            <input type="text" id="reg-phone-prefix" class="phone-prefix" value="+91" maxlength="5" />
+            <input type="tel" id="reg-phone" class="phone-number-input" placeholder="Enter mobile number" autocomplete="tel" />
+          </div>
+          <div id="reg-phone-error" class="form-error hidden"></div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="form-label" for="reg-password">Password</label>
+          <div class="input-wrapper">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <input type="password" id="reg-password" class="form-input" placeholder="Create a password" autocomplete="new-password" />
+            <button type="button" class="password-toggle" id="toggle-password" aria-label="Toggle password visibility">
+              <svg id="eye-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              <svg id="eye-off-icon" class="hidden" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+            </button>
+          </div>
+          <div id="reg-password-error" class="form-error hidden"></div>
+
+          <!-- Password requirements -->
+          <div class="password-requirements">
+            <div class="req-title">Password Requirements</div>
+            <div class="password-req" id="req-length">
+              <span class="req-icon">✗</span>
+              <span>At least 8 characters</span>
+            </div>
+            <div class="password-req" id="req-uppercase">
+              <span class="req-icon">✗</span>
+              <span>1 uppercase letter</span>
+            </div>
+            <div class="password-req" id="req-number">
+              <span class="req-icon">✗</span>
+              <span>1 number</span>
+            </div>
+            <div class="password-req" id="req-special">
+              <span class="req-icon">✗</span>
+              <span>1 special character</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Terms & Privacy -->
+        <div class="form-group">
+          <div class="checkbox-group">
+            <input type="checkbox" id="reg-terms" />
+            <label for="reg-terms">I agree to the <a href="#" onclick="event.preventDefault()">Terms &amp; Conditions</a></label>
+          </div>
+          <div id="reg-terms-error" class="form-error hidden"></div>
+          <div class="checkbox-group">
+            <input type="checkbox" id="reg-privacy" />
+            <label for="reg-privacy">I agree to the <a href="#" onclick="event.preventDefault()">Privacy Policy</a></label>
+          </div>
+          <div id="reg-privacy-error" class="form-error hidden"></div>
+        </div>
+
+        <button type="submit" id="btn-register" class="btn btn-primary">
+          Create Account
+        </button>
+      </form>
+
+      <div class="card-footer">
+        <p>Already have an account? <a href="login.html">Sign in</a></p>
+      </div>
+    </div>
+
+    <!-- ===== Screen: Email OTP ===== -->
+    <div id="screen-email-otp" class="auth-card screen hidden">
+      <div class="progress-bar">
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot active">2</div></div>
+        <div class="step-connector"></div>
+        <div class="progress-step"><div class="step-dot pending">3</div></div>
+        <div class="step-connector"></div>
+        <div class="progress-step"><div class="step-dot pending">4</div></div>
+        <div class="step-connector"></div>
+        <div class="progress-step"><div class="step-dot pending">5</div></div>
+      </div>
+
+      <div class="card-header">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <h2>Verify your email</h2>
+        <p>We've sent a 6-digit code to</p>
+        <div class="contact-display"><span id="email-display" class="contact-value"></span></div>
+      </div>
+
+      <div id="email-otp-alert" class="hidden"></div>
+
+      <div class="otp-input-group" id="email-otp-inputs">
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 1" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 2" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 3" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 4" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 5" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 6" />
+      </div>
+
+      <div class="otp-info">
+        <div class="otp-timer" id="email-otp-timer">Code expires in <span class="timer-value" id="email-timer-value">3:00</span></div>
+        <button type="button" class="resend-link" id="email-resend-btn" disabled>Resend code</button>
+      </div>
+
+      <button type="button" id="btn-verify-email" class="btn btn-primary">
+        Verify Email
+      </button>
+    </div>
+
+    <!-- ===== Screen: SMS OTP ===== -->
+    <div id="screen-sms-otp" class="auth-card screen hidden">
+      <div class="progress-bar">
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot active">3</div></div>
+        <div class="step-connector"></div>
+        <div class="progress-step"><div class="step-dot pending">4</div></div>
+        <div class="step-connector"></div>
+        <div class="progress-step"><div class="step-dot pending">5</div></div>
+      </div>
+
+      <div class="card-header">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+          </svg>
+        </div>
+        <h2>Verify your phone</h2>
+        <p>We've sent a 6-digit code to</p>
+        <div class="contact-display"><span id="phone-display" class="contact-value"></span></div>
+      </div>
+
+      <div id="sms-otp-alert" class="hidden"></div>
+
+      <div class="otp-input-group" id="sms-otp-inputs">
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 1" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 2" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 3" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 4" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 5" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 6" />
+      </div>
+
+      <div class="otp-info">
+        <div class="otp-timer" id="sms-otp-timer">Code expires in <span class="timer-value" id="sms-timer-value">3:00</span></div>
+        <button type="button" class="resend-link" id="sms-resend-btn" disabled>Resend code</button>
+      </div>
+
+      <button type="button" id="btn-verify-sms" class="btn btn-primary">
+        Verify Phone
+      </button>
+    </div>
+
+    <!-- ===== Screen: MFA Setup (method selection) ===== -->
+    <div id="screen-mfa-setup" class="auth-card screen hidden">
+      <div class="progress-bar">
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot active">4</div></div>
+        <div class="step-connector"></div>
+        <div class="progress-step"><div class="step-dot pending">5</div></div>
+      </div>
+
+      <div class="card-header">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+        </div>
+        <h2>Set Up Multi-Factor Authentication</h2>
+        <p>Add an extra layer of security to your account</p>
+      </div>
+
+      <div class="mfa-options">
+        <div class="mfa-option selected" id="mfa-opt-authenticator" data-method="authenticator">
+          <div class="option-icon auth-app">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><path d="M12 18h.01"/><path d="M9 9h6"/><path d="M9 13h6"/></svg>
+          </div>
+          <div class="option-info">
+            <h4>Authenticator App</h4>
+            <p>Use Google Authenticator or similar app</p>
+          </div>
+        </div>
+        <div class="mfa-option" id="mfa-opt-sms" data-method="sms">
+          <div class="option-icon sms-auth">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="option-info">
+            <h4>SMS Authentication</h4>
+            <p>Receive codes via text message</p>
+          </div>
+        </div>
+        <div class="mfa-option" id="mfa-opt-email" data-method="email">
+          <div class="option-icon email-auth">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="option-info">
+            <h4>Email Authentication</h4>
+            <p>Receive codes via email</p>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" id="btn-mfa-continue" class="btn btn-primary">
+        Continue Setup
+      </button>
+    </div>
+
+    <!-- ===== Screen: Authenticator QR Setup ===== -->
+    <div id="screen-mfa-qr" class="auth-card screen hidden">
+      <div class="progress-bar">
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot active">4</div></div>
+        <div class="step-connector"></div>
+        <div class="progress-step"><div class="step-dot pending">5</div></div>
+      </div>
+
+      <button type="button" class="back-link" id="btn-back-mfa">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+
+      <div class="card-header">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+          </svg>
+        </div>
+        <h2>Set up Authenticator</h2>
+        <p>Scan the QR code with your authenticator app</p>
+      </div>
+
+      <div class="qr-container">
+        <img id="mfa-qr-code" src="" alt="QR Code for authenticator setup" />
+      </div>
+
+      <div class="setup-key">
+        <div class="key-label">Or enter setup key manually</div>
+        <div class="key-value" id="mfa-setup-key"></div>
+        <button type="button" class="copy-btn" id="btn-copy-key">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy key
+        </button>
+      </div>
+
+      <button type="button" id="btn-mfa-qr-continue" class="btn btn-primary mt-2">
+        Continue
+      </button>
+    </div>
+
+    <!-- ===== Screen: MFA Verification OTP ===== -->
+    <div id="screen-mfa-verify" class="auth-card screen hidden">
+      <div class="progress-bar">
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot active">4</div></div>
+        <div class="step-connector"></div>
+        <div class="progress-step"><div class="step-dot pending">5</div></div>
+      </div>
+
+      <div class="card-header">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <h2>Verify Authenticator</h2>
+        <p>Enter the 6-digit code from your authenticator app</p>
+      </div>
+
+      <div id="mfa-otp-alert" class="hidden"></div>
+
+      <div class="otp-input-group" id="mfa-otp-inputs">
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 1" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 2" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 3" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 4" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 5" />
+        <input type="text" class="otp-input" maxlength="1" inputmode="numeric" pattern="[0-9]" aria-label="Digit 6" />
+      </div>
+
+      <button type="button" id="btn-verify-mfa" class="btn btn-primary">
+        Verify &amp; Complete
+      </button>
+    </div>
+
+    <!-- ===== Screen: Registration Success ===== -->
+    <div id="screen-success" class="auth-card screen hidden">
+      <div class="progress-bar">
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+        <div class="step-connector completed"></div>
+        <div class="progress-step"><div class="step-dot completed">✓</div></div>
+      </div>
+
+      <div class="card-header">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h2>Registration Complete!</h2>
+        <p>Your SecureID account has been created successfully</p>
+      </div>
+
+      <div class="success-details">
+        <div class="detail-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Email verified</span>
+        </div>
+        <div class="detail-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Phone number verified</span>
+        </div>
+        <div class="detail-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Multi-factor authentication enabled</span>
+        </div>
+        <div class="detail-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          <span>Account secured</span>
+        </div>
+      </div>
+
+      <button type="button" id="btn-go-login" class="btn btn-primary">
+        Continue to Login
+      </button>
+    </div>
+
+  </main>
+</div>
+
+<script src="js/register.js"></script>
+</body>
+</html>

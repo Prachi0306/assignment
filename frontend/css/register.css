@@ -1,0 +1,147 @@
+/* ============================================
+   Registration Page Specific Styles
+   ============================================ */
+
+/* Screen transitions */
+.screen {
+  animation: cardSlideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Phone input prefix */
+.phone-input-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.phone-prefix {
+  width: 80px;
+  padding: 12px 10px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--gray-800);
+  background: var(--gray-50);
+  text-align: center;
+  outline: none;
+  flex-shrink: 0;
+}
+
+.phone-prefix:focus {
+  border-color: var(--primary-400);
+  background: white;
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.phone-number-input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+  color: var(--gray-800);
+  background: var(--gray-50);
+  outline: none;
+  transition: all var(--transition-fast);
+}
+
+.phone-number-input:focus {
+  border-color: var(--primary-400);
+  background: white;
+  box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.phone-number-input.error {
+  border-color: var(--error-500);
+  background: var(--error-50);
+}
+
+/* Section divider */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 1.5rem 0;
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--gray-200);
+}
+
+.section-divider span {
+  font-size: 0.8rem;
+  color: var(--gray-400);
+  font-weight: 500;
+}
+
+/* Masked contact display */
+.contact-display {
+  text-align: center;
+  margin: 0.5rem 0 0.25rem;
+}
+
+.contact-display .contact-value {
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+/* Back button styling for OTP screens */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  margin-bottom: 1rem;
+  padding: 4px 0;
+}
+
+.back-link:hover {
+  color: var(--primary-600);
+}
+
+.back-link svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Confetti / Success animation overlay */
+.success-confetti {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--primary-500);
+  animation: confettiFall 2.5s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes confettiFall {
+  0% {
+    opacity: 1;
+    transform: translateY(-100px) rotate(0deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(100vh) rotate(720deg);
+  }
+}
