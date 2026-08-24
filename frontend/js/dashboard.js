@@ -5,9 +5,13 @@
 (function () {
   'use strict';
 
-  const API_BASE = window.location.origin.includes('localhost:3000')
-    ? 'http://localhost:3000/api'
-    : `${window.location.origin}/api`;
+  const API_BASE = (() => {
+    if (window.API_BASE_URL) return window.API_BASE_URL;
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      if (window.location.port === '5500') return 'http://localhost:3000/api';
+    }
+    return `${window.location.origin}/api`;
+  })();
 
   async function loadDashboard() {
     const token = sessionStorage.getItem('secureid_token');

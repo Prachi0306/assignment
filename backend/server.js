@@ -1,15 +1,13 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
+const { connectDB } = require('./utils/db');
 const app = require('./app');
 
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/secureid';
 
 async function startServer() {
   try {
     // Connect to MongoDB
-    await mongoose.connect(MONGODB_URI);
-    console.log('✅ Connected to MongoDB:', MONGODB_URI);
+    await connectDB();
 
     // Start Express server
     app.listen(PORT, () => {
@@ -21,6 +19,10 @@ async function startServer() {
         console.log('\n⚠️  TEST-ONLY endpoints enabled:');
         console.log(`   GET  http://localhost:${PORT}/api/test/otp/:challengeId`);
         console.log(`   POST http://localhost:${PORT}/api/test/mfa-otp`);
+      }
+
+      if (process.env.NODE_ENV === 'production') {
+        console.log('\n🔒 Production mode: Test endpoints DISABLED.');
       }
 
       console.log('\n📡 API Endpoints:');

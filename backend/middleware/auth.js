@@ -2,7 +2,15 @@ const jwt = require('jsonwebtoken');
 const Session = require('../models/Session');
 const User = require('../models/User');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secureid-dev-secret';
+// Enforce JWT_SECRET in production — never fall back to an insecure default
+const JWT_SECRET = (() => {
+  if (process.env.JWT_SECRET) return process.env.JWT_SECRET;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('FATAL: JWT_SECRET environment variable is required in production.');
+  }
+  console.warn('⚠️  WARNING: Using default JWT secret. Set JWT_SECRET in production!');
+  return 'secureid-dev-secret';
+})();
 
 /**
  * Server-side Session Authentication Middleware.

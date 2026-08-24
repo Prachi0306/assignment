@@ -1,0 +1,16 @@
+{
+  "name": "secureid-iam",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SecureID IAM Authentication System",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node backend/server.js",
+    "test": "cd backend && npm test",
+    "install:backend": "cd backend && npm install",
+    "vercel-build": "cd backend && npm install"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

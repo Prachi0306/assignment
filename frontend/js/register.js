@@ -9,9 +9,16 @@
   // ============================================
   // Configuration
   // ============================================
-  const API_BASE = window.location.origin.includes('localhost:3000')
-    ? 'http://localhost:3000/api'
-    : `${window.location.origin}/api`;
+  const API_BASE = (() => {
+    // 1. Explicit override (e.g., for custom deployments)
+    if (window.API_BASE_URL) return window.API_BASE_URL;
+    // 2. Local dev with Live Server (frontend on :5500, backend on :3000)
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      if (window.location.port === '5500') return 'http://localhost:3000/api';
+    }
+    // 3. Same-origin (production on Vercel, or backend serving frontend)
+    return `${window.location.origin}/api`;
+  })();
 
   // ============================================
   // State

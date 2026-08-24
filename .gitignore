@@ -26,3 +26,6 @@ Thumbs.db
 *.ntvs*
 *.njsproj
 *.sln
+
+# Vercel
+.vercel

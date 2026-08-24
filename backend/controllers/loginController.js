@@ -5,7 +5,15 @@ const OTPAuth = require('otpauth');
 const User = require('../models/User');
 const Session = require('../models/Session');
 
-const JWT_SECRET = process.env.JWT_SECRET || 'secureid-dev-secret';
+// Enforce JWT_SECRET in production — never fall back to an insecure default
+const JWT_SECRET = (() => {
+  if (process.env.JWT_SECRET) return process.env.JWT_SECRET;
+  if (process.env.NODE_ENV === 'production') {
+    throw new Error('FATAL: JWT_SECRET environment variable is required in production.');
+  }
+  console.warn('⚠️  WARNING: Using default JWT secret. Set JWT_SECRET in production!');
+  return 'secureid-dev-secret';
+})();
 const JWT_EXPIRY = process.env.JWT_EXPIRY || '15m'; // Short-lived JWT
 
 const MAX_LOGIN_ATTEMPTS = 5;
@@ -40,10 +48,12 @@ async function createServerSession(user, res) {
   });
 
   // Set secure, httpOnly authentication cookie
+  // Secure cookie configuration
+  const isProduction = process.env.NODE_ENV === 'production';
   res.cookie('sessionId', sessionId, {
     httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production',
+    sameSite: process.env.COOKIE_SAME_SITE || 'lax',
+    secure: isProduction,
     maxAge: 24 * 60 * 60 * 1000,
     path: '/',
   });
@@ -322,7 +332,7 @@ async function logout(req, res) {
     // Clear httpOnly cookie
     res.clearCookie('sessionId', {
       httpOnly: true,
-      sameSite: 'lax',
+      sameSite: process.env.COOKIE_SAME_SITE || 'lax',
       secure: process.env.NODE_ENV === 'production',
       path: '/',
     });
