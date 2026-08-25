@@ -135,3 +135,95 @@
     transform: translateY(100vh) rotate(720deg);
   }
 }
+
+/* Password Strength Indicator */
+.password-strength-container {
+  margin-top: 0.6rem;
+  padding: 0.65rem 0.85rem;
+  background: var(--gray-50);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-100);
+  transition: all var(--transition-fast);
+}
+
+.strength-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.45rem;
+}
+
+.strength-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.strength-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  line-height: 1.2;
+  transition: all var(--transition-fast);
+}
+
+.strength-badge:empty {
+  display: none;
+}
+
+.strength-badge.weak {
+  color: var(--error-600);
+  background: var(--error-50);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.strength-badge.medium {
+  color: #b45309;
+  background: var(--warning-50);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.strength-badge.strong {
+  color: var(--success-600);
+  background: var(--success-50);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.strength-meter {
+  display: flex;
+  gap: 5px;
+  height: 6px;
+  width: 100%;
+}
+
+.strength-segment {
+  flex: 1;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--gray-200);
+  transition: background-color var(--transition-fast);
+}
+
+/* Weak state: 1st segment red */
+.strength-meter.is-weak .strength-segment:nth-child(1) {
+  background: var(--error-500);
+}
+
+/* Medium state: 1st & 2nd segments amber */
+.strength-meter.is-medium .strength-segment:nth-child(1),
+.strength-meter.is-medium .strength-segment:nth-child(2) {
+  background: var(--warning-500);
+}
+
+/* Strong state: 1st, 2nd, & 3rd segments green */
+.strength-meter.is-strong .strength-segment:nth-child(1),
+.strength-meter.is-strong .strength-segment:nth-child(2),
+.strength-meter.is-strong .strength-segment:nth-child(3) {
+  background: var(--success-500);
+}
+

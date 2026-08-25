@@ -109,6 +109,54 @@
     hideAlert('register-alert');
   }
 
+  function calculatePasswordStrength(password) {
+    if (!password) {
+      return { level: '', label: '', score: 0 };
+    }
+
+    const hasLength8 = password.length >= 8;
+    const hasLength10 = password.length >= 10;
+    const hasLower = /[a-z]/.test(password);
+    const hasUpper = /[A-Z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password);
+
+    // Mandatory criteria required for secure authentication
+    const meetsBasicCriteria = hasLength8 && hasUpper && hasNumber && hasSpecial;
+
+    if (!meetsBasicCriteria) {
+      return { level: 'weak', label: 'Weak', score: 1 };
+    }
+
+    // Meets all mandatory criteria + lowercase + enhanced length (>= 10 characters)
+    if (hasLength10 && hasLower) {
+      return { level: 'strong', label: 'Strong', score: 3 };
+    }
+
+    // Meets all mandatory criteria (length 8-9 with uppercase, number, special character)
+    return { level: 'medium', label: 'Medium', score: 2 };
+  }
+
+  function updatePasswordStrengthUI() {
+    const passwordInput = document.getElementById('reg-password');
+    if (!passwordInput) return;
+    const password = passwordInput.value;
+    const strength = calculatePasswordStrength(password);
+
+    const badge = document.getElementById('strength-badge');
+    const meter = document.getElementById('strength-meter');
+
+    if (badge) {
+      badge.textContent = strength.label;
+      badge.className = `strength-badge ${strength.level}`;
+    }
+
+    if (meter) {
+      meter.className = `strength-meter ${strength.level ? 'is-' + strength.level : ''}`;
+      meter.setAttribute('aria-valuenow', strength.score.toString());
+    }
+  }
+
   function validateForm() {
     clearAllErrors();
     let isValid = true;
@@ -137,13 +185,12 @@
       isValid = false;
     }
 
-    const passErrors = [];
-    if (password.length < 8) passErrors.push('at least 8 characters');
-    if (!/[A-Z]/.test(password)) passErrors.push('1 uppercase letter');
-    if (!/[0-9]/.test(password)) passErrors.push('1 number');
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password)) passErrors.push('1 special character');
-    if (passErrors.length > 0) {
-      showFieldError('reg-password', `Password needs: ${passErrors.join(', ')}.`);
+    const strength = calculatePasswordStrength(password);
+    if (!password) {
+      showFieldError('reg-password', 'Password is required.');
+      isValid = false;
+    } else if (strength.level === 'weak') {
+      showFieldError('reg-password', 'Password strength is too weak. Must be at least Medium strength.');
       isValid = false;
     }
 
@@ -163,7 +210,9 @@
   }
 
   function updatePasswordRequirements() {
-    const password = document.getElementById('reg-password').value;
+    const passwordInput = document.getElementById('reg-password');
+    if (!passwordInput) return;
+    const password = passwordInput.value;
 
     const reqs = [
       { id: 'req-length', test: password.length >= 8 },
@@ -184,6 +233,8 @@
         }
       }
     });
+
+    updatePasswordStrengthUI();
   }
 
   function initPasswordToggle() {
@@ -192,12 +243,14 @@
     const eyeIcon = document.getElementById('eye-icon');
     const eyeOffIcon = document.getElementById('eye-off-icon');
 
-    if (toggleBtn) {
+    if (toggleBtn && passwordInput) {
       toggleBtn.addEventListener('click', () => {
         const isPassword = passwordInput.type === 'password';
         passwordInput.type = isPassword ? 'text' : 'password';
-        eyeIcon.classList.toggle('hidden');
-        eyeOffIcon.classList.toggle('hidden');
+        if (eyeIcon) eyeIcon.classList.toggle('hidden', isPassword);
+        if (eyeOffIcon) eyeOffIcon.classList.toggle('hidden', !isPassword);
+        toggleBtn.setAttribute('aria-label', isPassword ? 'Hide password' : 'Show password');
+        toggleBtn.setAttribute('title', isPassword ? 'Hide password' : 'Show password');
       });
     }
   }
