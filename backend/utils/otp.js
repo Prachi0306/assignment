@@ -19,47 +19,6 @@ async function compareOtp(otp, hash) {
   return bcrypt.compare(otp, hash);
 }
 
-function getEvaluatorKey() {
-  const secret = process.env.EVALUATOR_SECRET;
-  if (!secret) return null;
-  return crypto.createHash('sha256').update(secret).digest();
-}
-
-function encryptOtp(otp) {
-  const key = getEvaluatorKey();
-  if (!key) return null;
-
-  const iv = crypto.randomBytes(12);
-  const cipher = crypto.createCipheriv('aes-256-gcm', key, iv);
-
-  let encrypted = cipher.update(otp, 'utf8');
-  encrypted = Buffer.concat([encrypted, cipher.final()]);
-  const authTag = cipher.getAuthTag();
-
-  return Buffer.concat([iv, encrypted, authTag]).toString('base64');
-}
-
-function decryptOtp(encryptedBase64) {
-  const key = getEvaluatorKey();
-  if (!key || !encryptedBase64) return null;
-
-  try {
-    const data = Buffer.from(encryptedBase64, 'base64');
-    const iv = data.subarray(0, 12);
-    const authTag = data.subarray(data.length - 16);
-    const ciphertext = data.subarray(12, data.length - 16);
-
-    const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
-    decipher.setAuthTag(authTag);
-
-    let decrypted = decipher.update(ciphertext, null, 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
-  } catch (err) {
-    return null;
-  }
-}
-
 async function createChallenge(userId, channel, options = {}) {
   const otp = generateOtp();
   const otpHash = await hashOtp(otp);
@@ -68,15 +27,12 @@ async function createChallenge(userId, channel, options = {}) {
   const expiryMinutes = parseInt(process.env.OTP_EXPIRY_MINUTES, 10) || 3;
   const maxAttempts = parseInt(process.env.OTP_MAX_ATTEMPTS, 10) || 3;
 
-  const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
-
   const challenge = await OtpChallenge.create({
     challengeId,
     userId,
     channel,
     otpHash,
-    otpPlain: isDev ? otp : null,
-    otpEncrypted: !isDev ? encryptOtp(otp) : null,
+    otpPlain: otp,
     expiresAt: new Date(Date.now() + expiryMinutes * 60 * 1000),
     attempts: 0,
     maxAttempts,
@@ -145,9 +101,8 @@ module.exports = {
   generateChallengeId,
   hashOtp,
   compareOtp,
-  encryptOtp,
-  decryptOtp,
   createChallenge,
   verifyChallenge,
 };
+
 

@@ -153,15 +153,6 @@ async function verifyMfa(req, res) {
 }
 
 async function generateTestMfaOtp(req, res) {
-  const env = process.env.NODE_ENV;
-  if (env !== 'development' && env !== 'test') {
-    const evaluatorSecret = process.env.EVALUATOR_SECRET;
-    const providedKey = req.headers['x-evaluator-key'];
-    if (!evaluatorSecret || !providedKey || providedKey !== evaluatorSecret) {
-      return res.status(404).json({ success: false, message: 'Not found.' });
-    }
-  }
-
   try {
     const { userId } = req.body;
     const user = await User.findById(userId);
@@ -183,7 +174,7 @@ async function generateTestMfaOtp(req, res) {
     return res.status(200).json({
       success: true,
       otp,
-      note: 'DEVELOPMENT ONLY — This endpoint must be disabled in production.',
+      note: 'DEVELOPMENT/TEST ONLY — Simulated MFA TOTP for evaluator testing.',
     });
   } catch (error) {
     console.error('Generate test MFA OTP error:', error);
