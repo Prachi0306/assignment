@@ -25,6 +25,10 @@ const otpChallengeSchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    otpEncrypted: {
+      type: String,
+      default: null,
+    },
     expiresAt: {
       type: Date,
       required: true,

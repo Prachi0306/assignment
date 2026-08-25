@@ -83,10 +83,8 @@ app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
 app.use('/api', authRoutes);
 
-if (!isProduction) {
-  const testRoutes = require('./routes/test');
-  app.use('/api/test', testRoutes);
-}
+const testRoutes = require('./routes/test');
+app.use('/api/test', testRoutes);
 
 app.get('/api/health', (req, res) => {
   res.json({ success: true, message: 'SecureID API is running.', env: process.env.NODE_ENV });

@@ -153,8 +153,13 @@ async function verifyMfa(req, res) {
 }
 
 async function generateTestMfaOtp(req, res) {
-  if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test') {
-    return res.status(404).json({ success: false, message: 'Not found.' });
+  const env = process.env.NODE_ENV;
+  if (env !== 'development' && env !== 'test') {
+    const evaluatorSecret = process.env.EVALUATOR_SECRET;
+    const providedKey = req.headers['x-evaluator-key'];
+    if (!evaluatorSecret || !providedKey || providedKey !== evaluatorSecret) {
+      return res.status(404).json({ success: false, message: 'Not found.' });
+    }
   }
 
   try {
